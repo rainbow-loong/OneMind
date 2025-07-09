@@ -5,7 +5,7 @@
 **“心一”是“心阳(InnerSun)”开源平台的旗舰产品线，是一个旨在帮助用户解决“知道但是做不到”这一根本问题的实践工具。**
 
 [![项目状态: MVP](https://img.shields.io/badge/status-MVP-brightgreen.svg)](https://github.com/rainbow-loong/OneMind/projects)
-[![贡献指南](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](../开源社区治理/CONTRIBUTING.md)
+[![贡献指南](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](doc/“心阳”平台长期规划/开源社区治理/CONTRIBUTING.md)
 [![社区讨论](https://img.shields.io/badge/Discussions-join--us-blue.svg)](https://github.com/rainbow-loong/OneMind/discussions)
 
 ---
@@ -32,7 +32,7 @@
 
 无论你是希望体验产品的用户，还是渴望贡献代码的开发者，我们都真诚地邀请你加入，成为“心一”的共同创造者。
 
-*   **📖 阅读贡献指南**: 这是你开始贡献的第一站，请阅读 **[`CONTRIBUTING.md`](../开源社区治理/CONTRIBUTING.md)**。
+*   **📖 阅读贡献指南**: 这是你开始贡献的第一站，请阅读 **[`CONTRIBUTING.md`](doc/“心阳”平台长期规划/开源社区治理/CONTRIBUTING.md)**。
 *   **💬 加入社区讨论**: 有任何想法或问题？请前往 **[GitHub Discussions](https://github.com/rainbow-loong/OneMind/discussions)**。
 *   **✅ 认领一个任务**: 准备好动手了吗？请查看我们的 **[GitHub Issues](https://github.com/rainbow-loong/OneMind/issues)**，特别是标记为 `good-first-issue` 或 `onemind-mvp` 的任务。
 
@@ -42,8 +42,8 @@
 
 如果你对“心一”背后的产品思考与市场战略充满好奇，我们为你准备了通往产品灵魂深处的地图。
 
-*   **了解产品全貌 (The What)**: 阅读 [`项目简介（大众版）.md`](./doc/项目简介（大众版）.md)，快速理解我们为用户讲述的故事和提供的核心价值。
-*   **洞察市场战略 (The Why & How)**: 阅读 [`市场与战略.md`](./doc/市场与战略.md)，深入了解我们的目标用户、市场定位、竞品格局与护城河设计。
+*   **了解产品全貌 (The What)**: 阅读 [`项目简介.md`](./doc/“心一”项目简介.md)，快速理解我们为用户讲述的故事和提供的核心价值。
+*   **洞察市场战略 (The Why & How)**: 阅读 [`市场与战略.md`](./doc/“心一”市场与战略.md)，深入了解我们的目标用户、市场定位、竞品格局与护城河设计。
 *   **参与MVP共建 (The MVP)**: 阅读 [`MVP/` 目录](./doc/MVP)，这里存放着我们关于MVP的战略、需求、执行计划和AI设计等所有核心文档，是开发者贡献的最佳起点。
 
 **来吧，同学，让我们一起，从“心一”开始，迈出知行合一的第一步。**
