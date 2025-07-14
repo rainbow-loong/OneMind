@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import logging
+import time
 from typing import Any
 
 from google.adk.agents import LlmAgent
@@ -20,7 +21,7 @@ from google.adk.tools import FunctionTool
 from pydantic import BaseModel, Field
 from supabase import Client, create_client
 
-from .config import onemind_config
+from .config import debug_config, onemind_config
 
 # --- Supabase Client Initialization ---
 supabase: Client | None = None
@@ -73,6 +74,9 @@ def check_crisis(user_input: str) -> bool:
     Returns:
         True if the input contains crisis keywords, False otherwise.
     """
+    # Add a 1-second delay to help prevent API rate limiting errors.
+    time.sleep(0.1)
+
     # A simple, non-exhaustive list. In a real application, this would be
     # more robust and likely involve a dedicated safety model.
     crisis_keywords = ["自杀", "自残", "不想活了", "去死"]
@@ -98,12 +102,17 @@ class MemoBaseTool:
                 "memory_insight": "No database connection.",
             }
         try:
+            user_id = getattr(session_input, "user_id", None) or debug_config.USER_ID
+            session_id = (
+                getattr(session_input, "session_id", None) or debug_config.SESSION_ID
+            )
+
             # 1. Try to fetch the existing session
             session_data = (
                 supabase.table("sessions")
                 .select("current_stage")
-                .eq("session_id", session_input.session_id)
-                .eq("user_id", session_input.user_id)
+                .eq("session_id", session_id)
+                .eq("user_id", user_id)
                 .execute()
             )
 
@@ -114,8 +123,8 @@ class MemoBaseTool:
                 # 2. If not found, create a new session
                 supabase.table("sessions").insert(
                     {
-                        "session_id": session_input.session_id,
-                        "user_id": session_input.user_id,
+                        "session_id": session_id,
+                        "user_id": user_id,
                         "current_stage": stage,
                     }
                 ).execute()
@@ -124,7 +133,7 @@ class MemoBaseTool:
             memory_data = (
                 supabase.table("integration_crystals")
                 .select("key_insight")
-                .eq("user_id", session_input.user_id)
+                .eq("user_id", user_id)
                 .order("created_at", desc=True)
                 .limit(1)
                 .execute()
@@ -134,7 +143,7 @@ class MemoBaseTool:
             )
 
             logging.info(
-                f"Session for {session_input.user_id}: stage='{stage}', insight='{memory_insight}'"
+                f"Session for {user_id}: stage='{stage}', insight='{memory_insight}'"
             )
             return {"stage": stage, "memory_insight": memory_insight}
 
@@ -147,12 +156,20 @@ class MemoBaseTool:
         if not supabase:
             return False
         try:
-            supabase.table("sessions").update({"current_stage": stage_update.next_stage}).eq(
-                "session_id", stage_update.session_id
-            ).execute()
+            # The input is a dict. Access it safely using .get().
+            session_id = stage_update.get("session_id") or debug_config.SESSION_ID
+            next_stage = stage_update.get("next_stage")
+
+            if not next_stage:
+                logging.error(f"Missing 'next_stage' in stage_update: {stage_update}")
+                return False
+
             logging.info(
-                f"Updating stage for session {stage_update.session_id} to {stage_update.next_stage}"
+                f"TOOL CALLED: update_session_stage - Session ID: {session_id}, New Stage: {next_stage}"
             )
+            supabase.table("sessions").update({"current_stage": next_stage}).eq(
+                "session_id", session_id
+            ).execute()
             return True
         except Exception as e:
             logging.error(f"Error in update_session_stage: {e}")
@@ -163,17 +180,27 @@ class MemoBaseTool:
         if not supabase:
             return False
         try:
+            # The input is a dict. Access it safely using .get().
+            user_id = crystal_input.get("user_id") or debug_config.USER_ID
+            name = crystal_input.get("name")
+            insight = crystal_input.get("insight")
+
+            if not all([user_id, name, insight]):
+                logging.error(
+                    f"Missing required fields in crystal_input: {crystal_input}"
+                )
+                return False
+
+            logging.info(
+                f"TOOL CALLED: create_integration_crystal - User ID: {user_id}, Crystal Name: '{name}'"
+            )
             supabase.table("integration_crystals").insert(
                 {
-                    "user_id": crystal_input.user_id,
-                    "name": crystal_input.name,
-                    "key_insight": crystal_input.insight,
-                    # 'session_id' is not a column in the table, but useful for logging
+                    "user_id": user_id,
+                    "name": name,
+                    "key_insight": insight,
                 }
             ).execute()
-            logging.info(
-                f"Creating crystal '{crystal_input.name}' for user {crystal_input.user_id}"
-            )
             return True
         except Exception as e:
             logging.error(f"Error in create_integration_crystal: {e}")
@@ -219,19 +246,25 @@ orchestrator_agent = LlmAgent(
 你的唯一使命是，遵循四阶段对话协议，帮助用户完成一次“知行转化”。
 
 # TOOLS
-你拥有以下工具，并知道在何时使用它们：
-- `check_crisis`: 在处理任何用户输入前，必须首先调用此工具进行安全检查。如果返回True，你必须立即停止所有思考，并输出固定的危机干预指令。
-- `MemoBaseTool.get_session`: 在安全检查后，调用此工具获取用户的对话阶段和长期记忆。
-- `MemoBaseTool.update_session_stage`: 当对话阶段推进时，调用此工具更新状态。
-- `MemoBaseTool.create_integration_crystal`: 在第4阶段结束时，调用此工具为用户记录成长。
-- `retrieve_wisdom`: 当你需要心理学或实践智慧来帮助用户整合冲突时 (stage_2_integration)，调用此工具。
+你拥有以下工具，并且必须在恰当的时机调用它们来管理对话流程。
+- `check_crisis(user_input: str)`: 在处理任何用户输入前，必须首先调用此工具进行安全检查。如果返回True，你必须立即停止所有思考，并输出固定的危机干预指令。
+- `MemoBaseTool.get_session(session_id: str, user_id: str)`: 在安全检查后，必须调用此工具获取用户的当前对话阶段 `current_stage` 和长期记忆 `memory_insight`。
+- `MemoBaseTool.update_session_stage(session_id: str, next_stage: str)`: 当且仅当用户对话取得进展，需要进入下一阶段时，你**必须**调用此工具来更新状态。这是推进对话流程的唯一方式。
+- `MemoBaseTool.create_integration_crystal(user_id: str, name: str, insight: str, session_id: str)`: 在第4阶段结束时，调用此工具为用户记录成长。
+- `retrieve_wisdom(query: str)`: 当你需要心理学或实践智慧来帮助用户整合冲突时 (stage_2_integration)，调用此工具。
 
 # DIALOGUE PROTOCOL (STATE MACHINE)
-你的行动由一个名为 `current_stage` 的变量驱动。你必须严格遵循当前阶段的目标和行动步骤。
-1.  **stage_1_awareness**: 你的目标是见证和命名用户的卡点。
-2.  **stage_2_integration**: 你的目标是整合冲突。在此阶段，你可以调用 `retrieve_wisdom` 来获取灵感。
-3.  **stage_3_micro_action**: 你的目标是帮助用户定义一个最小行动。
+你的行动完全由从 `get_session` 工具获取的 `current_stage` 变量驱动。你必须严格遵循当前阶段的目标和行动步骤。**阶段的转换必须通过调用 `update_session_stage` 工具来完成。**
+
+1.  **stage_1_awareness**: 你的目标是见证和命名用户的卡点。当用户确认了卡点，并表达出希望解决的意愿时，你必须调用 `MemoBaseTool.update_session_stage` 将阶段更新为 `stage_2_integration`。
+2.  **stage_2_integration**: 你的目标是整合冲突。在此阶段，你可以调用 `retrieve_wisdom` 来获取灵感。当用户理解了内在冲突的善意，并准备好行动时，你必须调用 `MemoBaseTool.update_session_stage` 将阶段更新为 `stage_3_micro_action`。
+3.  **stage_3_micro_action**: 你的目标是帮助用户定义一个最小行动。当用户定义了微行动并承诺执行时，你必须调用 `MemoBaseTool.update_session_stage` 将阶段更新为 `stage_4_solidification`。
 4.  **stage_4_solidification**: 你的目标是复盘和固化经验。在此阶段，你需要总结本次对话，并调用 `MemoBaseTool.create_integration_crystal` 来为用户记录这次成长。
+
+**TOOL USAGE EXAMPLE**
+- User says: "我该怎么办呢？"
+- Your thought: The user is asking for a solution, which means we are moving from awareness to integration. I must call the tool to update the stage.
+- Your tool call: `MemoBaseTool.update_session_stage(session_id="...", next_stage="stage_2_integration")`
 
 # ABSOLUTE RULES
 1.  【禁止说教】永远不要使用“你应该”等命令性词语。

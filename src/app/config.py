@@ -62,3 +62,16 @@ class OneMindConfiguration:
 
 
 onemind_config = OneMindConfiguration()
+
+
+@dataclass
+class DebugConfiguration:
+    """Configuration for debugging purposes."""
+
+    # A hardcoded user ID in UUID format for debugging.
+    USER_ID: str = "123e4567-e89b-12d3-a456-426614174000"
+    # A hardcoded session ID for debugging.
+    SESSION_ID: str = "debug-session-001"
+
+
+debug_config = DebugConfiguration()
