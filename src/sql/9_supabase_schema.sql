@@ -45,7 +45,7 @@ USING (auth.uid() = user_id)
 WITH CHECK (auth.uid() = user_id);
 
 -- =================================================================
--- 2. 创建 integration_crystals (整合结晶/长期记忆表)
+-- 2. 创建 integration_crystals (成长结晶/长期记忆表)
 -- =================================================================
 
 -- 创建 integration_crystals 表
@@ -62,7 +62,7 @@ CREATE TABLE public.integration_crystals (
 );
 
 -- 添加表和列的注释
-COMMENT ON TABLE public.integration_crystals IS '整合结晶/长期记忆表';
+COMMENT ON TABLE public.integration_crystals IS '成长结晶/长期记忆表';
 COMMENT ON COLUMN public.integration_crystals.id IS '结晶唯一标识符 (主键)';
 COMMENT ON COLUMN public.integration_crystals.user_id IS '所属用户，关联到 Supabase 的 auth.users 表';
 COMMENT ON COLUMN public.integration_crystals.name IS '用户为本次整合体验的命名';
@@ -76,7 +76,7 @@ COMMENT ON COLUMN public.integration_crystals.created_at IS '创建时间';
 -- 启用行级安全 (RLS)
 ALTER TABLE public.integration_crystals ENABLE ROW LEVEL SECURITY;
 
--- 创建 RLS 策略，确保用户只能访问和操作自己的整合结晶
+-- 创建 RLS 策略，确保用户只能访问和操作自己的成长结晶
 CREATE POLICY "Allow individual access to own integration crystals"
 ON public.integration_crystals
 FOR ALL
