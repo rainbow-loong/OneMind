@@ -76,7 +76,7 @@ graph TD
 *   **函数签名**:
     *   `get_session(session_id: str, user_id: str) -> dict`: 获取或创建会话，返回 `{'stage': '...', 'memory_insight': '...'}`。
     *   `update_session_stage(session_id: str, next_stage: str) -> bool`: 更新会话的阶段。
-    *   `create_integration_crystal(user_id: str, name: str, insight: str, ...)`: 创建一个新的成长结晶，写入长期记忆。
+    *   `create_integration_crystal(user_id: str, name: str, insight: str, ...)`: 创建一个新的成就结晶，写入长期记忆。
 *   **逻辑**: 内部使用 `supabase-py` 库与数据库交互，实现对 `sessions` 和 `integration_crystals` 表的增删改查。
 
 ### 3.3. `WisdomTool`

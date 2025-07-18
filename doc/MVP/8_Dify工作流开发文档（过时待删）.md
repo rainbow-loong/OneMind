@@ -16,7 +16,7 @@
 
 1.  **状态机**: 使用Dify的 **变量** 和 **代码节点** 与外部数据库（Supabase）交互，来模拟和持久化用户的对话阶段 (`current_stage`)。
 2.  **RAG**: 使用Dify的 **知识库** 和 **知识检索节点**，为AI在关键阶段注入来自心理学和实践智慧的“弹药”。
-3.  **长期记忆 (MemoBase)**: 使用 **代码节点** 与外部数据库（Supabase）交互，实现对用户“成长结晶 (Integration Crystal)”的长期记录与读取，达成“修身”效果。
+3.  **长期记忆 (MemoBase)**: 使用 **代码节点** 与外部数据库（Supabase）交互，实现对用户“成就结晶 (Integration Crystal)”的长期记录与读取，达成“修身”效果。
 
 ---
 
@@ -78,7 +78,7 @@ graph TD
     | `current_stage` | TEXT | 当前对话阶段，如 `stage_1_awareness` |
     | `updated_at` | TIMESTAMPZ | 最后更新时间 |
 
-2.  **`integration_crystals` (成长结晶/长期记忆表)**
+2.  **`integration_crystals` (成就结晶/长期记忆表)**
     *   此表结构完全遵循 [`1_MVP_产品需求文档.md`](./1_MVP_产品需求文档.md) 中定义的 `IntegrationCrystal` 数据模型。
 
 ### 4.2. Dify 变量
@@ -124,7 +124,7 @@ graph TD
         crystal_data = supabase_client.table("integration_crystals").select("name, key_insight").eq("user_id", user_id).order("created_at", desc=True).limit(1).execute()
         long_term_memory_insight = ""
         if crystal_data.data:
-            long_term_memory_insight = f"根据你上次的成长结晶《{crystal_data.data[0]['name']}》，你似乎在学习如何与'{crystal_data.data[0]['key_insight']}'共处。"
+            long_term_memory_insight = f"根据你上次的成就结晶《{crystal_data.data[0]['name']}》，你似乎在学习如何与'{crystal_data.data[0]['key_insight']}'共处。"
 
         return {
             "stage": current_stage,
@@ -194,7 +194,7 @@ graph TD
         next_stage = get_next_stage(current_stage)
 
         if next_stage == "completed":
-            # 在这里可以调用另一个LLM来从对话历史中提炼成长结晶
+            # 在这里可以调用另一个LLM来从对话历史中提炼成就结晶
             # ...
             # supabase_client.table("integration_crystals").insert({...}).execute()
             supabase_client.table("sessions").delete().eq("session_id", session_id).execute()

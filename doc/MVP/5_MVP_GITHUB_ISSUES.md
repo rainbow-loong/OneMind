@@ -86,14 +86,14 @@
 ## Sprint 2: 核心循环 (1.5周)
 
 ### Issue #6
-*   **标题**: `[Sprint 2] [后端] 实现核心chat与成长结晶生成逻辑`
+*   **标题**: `[Sprint 2] [后端] 实现核心chat与成就结晶生成逻辑`
 *   **描述**:
     ```markdown
     **目标**: 实现MVP最核心的后端业务逻辑。
 
     **任务详情**:
     1.  开发 `chat` Function，实现接收消息、调用AI、存储对话的完整流程。
-    2.  开发 `create-integration-crystal` Function，用于在一次成功的“知行转化”后，创建成长结晶记录。
+    2.  开发 `create-integration-crystal` Function，用于在一次成功的“知行转化”后，创建成就结晶记录。
     ```
 *   **标签**: `sprint-2`, `backend`, `feature`
 
@@ -107,7 +107,7 @@
     1.  对接后端的认证流程。
     2.  通过调用 `chat` Function 实现实时对话功能。
     3.  实现“觉察卡点 -> 整合冲突 -> 付诸微行”的完整交互逻辑。
-    4.  实现“成长结晶”的生成与展示。
+    4.  实现“成就结晶”的生成与展示。
     5.  对接 `👍/👎` 反馈功能。
     ```
 *   **标签**: `sprint-2`, `frontend`, `feature`
