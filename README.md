@@ -5,7 +5,7 @@
 **“心一”是一个旨在帮助用户解决“知道但是做不到”这一根本问题的AI实践道场。**
 
 [![项目状态: MVP](https://img.shields.io/badge/status-MVP-brightgreen.svg)](https://github.com/rainbow-loong/OneMind/projects)
-[![贡献指南](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](doc/“心阳”平台长期规划/开源社区治理/CONTRIBUTING.md)
+[![贡献指南](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](doc/open-source-governance/CONTRIBUTING.md)
 [![社区讨论](https://img.shields.io/badge/Discussions-join--us-blue.svg)](https://github.com/rainbow-loong/OneMind/discussions)
 
 ---
@@ -32,7 +32,7 @@
 
 无论你是希望体验产品的用户，还是渴望贡献代码的开发者，我们都真诚地邀请你加入，成为“心一”的共同创造者。
 
-*   **📖 阅读贡献指南**: 这是你开始贡献的第一站，请阅读 **[`CONTRIBUTING.md`](doc/“心阳”平台长期规划/开源社区治理/CONTRIBUTING.md)**。
+*   **📖 阅读贡献指南**: 这是你开始贡献的第一站，请阅读 **[`CONTRIBUTING.md`](doc/open-source-governance/CONTRIBUTING.md)**。
 *   **💬 加入社区讨论**: 有任何想法或问题？请前往 **[GitHub Discussions](https://github.com/rainbow-loong/OneMind/discussions)**。
 *   **✅ 认领一个任务**: 准备好动手了吗？请查看我们的 **[GitHub Issues](https://github.com/rainbow-loong/OneMind/issues)**，特别是标记为 `good-first-issue` 或 `onemind-mvp` 的任务。
 
