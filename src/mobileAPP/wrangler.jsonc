@@ -1,0 +1,7 @@
+{
+  "name": "onemind",
+  "compatibility_date": "2024-07-21",
+  "assets": {
+    "directory": "./dist"
+  }
+}
