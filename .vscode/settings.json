@@ -1,3 +1,10 @@
 {
-    "python.defaultInterpreterPath": "src/.venv/bin/python"
+    "python.defaultInterpreterPath": "src/.venv/bin/python",
+    "python-envs.pythonProjects": [
+        {
+            "path": "src/AIAgent/tests",
+            "envManager": "ms-python.python:venv",
+            "packageManager": "ms-python.python:pip"
+        }
+    ]
 }
