@@ -33,7 +33,8 @@
 无论你是希望体验产品的用户，还是渴望贡献代码的开发者，我们都真诚地邀请你加入，成为“心一”的共同创造者。
 
 *   **📖 阅读贡献指南**: 这是你开始贡献的第一站，请阅读 **[`CONTRIBUTING.md`](doc/open-source-governance/CONTRIBUTING.md)**。
-*   **💬 加入社区讨论**: 有任何想法或问题？请前往 **[GitHub Discussions](https://github.com/rainbow-loong/OneMind/discussions)**。
+*   **💰 了解工分体系**: 我们采用工分体系来记录和激励贡献。详情请见 **[`贡献工分指南`](doc/contribution_guidelines.md)**。
+*   **� 加入社区讨论**: 有任何想法或问题？请前往 **[GitHub Discussions](https://github.com/rainbow-loong/OneMind/discussions)**。
 *   **✅ 认领一个任务**: 准备好动手了吗？请查看我们的 **[GitHub Issues](https://github.com/rainbow-loong/OneMind/issues)**，特别是标记为 `good-first-issue` 或 `onemind-mvp` 的任务。
 
 ---
