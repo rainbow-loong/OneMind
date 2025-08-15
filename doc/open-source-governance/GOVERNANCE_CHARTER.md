@@ -34,12 +34,36 @@
 
 2.  **社区生态：服务型倒三角结构**
     ```mermaid
-    graph TD
+    graph BT
         subgraph "社区生态 (服务型倒三角)"
-            direction BT
-            C("<b>项目负责人 Project Lead</b><br>移除障碍，维护基石") -- "服务" --> M("<b>领域负责人 Maintainers</b><br>服务与指导")
-            M -- "服务" --> P((<b>创造者 Creators</b><br>项目的基石，拥有最高自主权))
+            subgraph " "
+                direction LR
+                C1("创造者") --> C2("创造者") --> C3("创造者") --> C4("...")
+            end
+            
+            subgraph " "
+                direction LR
+                M1("领域负责人") --> M2("领域负责人")
+            end
+
+            P("项目负责人")
+
+            subgraph " "
+                direction TB
+                M1 -- "服务 / 赋能" --> C1
+                M1 -- "服务 / 赋能" --> C2
+                M2 -- "服务 / 赋能" --> C3
+                M2 -- "服务 / 赋能" --> C4
+                P -- "服务 / 赋能" --> M1
+                P -- "服务 / 赋能" --> M2
+            end
         end
+        style C1 fill:#cce5ff,stroke:#333,stroke-width:2px
+        style C2 fill:#cce5ff,stroke:#333,stroke-width:2px
+        style C3 fill:#cce5ff,stroke:#333,stroke-width:2px
+        style M1 fill:#ccffcc,stroke:#333,stroke-width:2px
+        style M2 fill:#ccffcc,stroke:#333,stroke-width:2px
+        style P fill:#ffcccc,stroke:#333,stroke-width:2px
     ```
     *   **创造者（Creators）**：是本项目的基石。所有参与代码、设计、文档、测试、社区沟通等实质性工作的成员，均为创造者。创造者拥有最高程度的自主权。
     *   **领域负责人（Maintainers）**：由在特定领域有深厚贡献和声望的创造者担任。其主要职责是为该领域的创造者提供技术指导、代码审核、资源协调等服务。
