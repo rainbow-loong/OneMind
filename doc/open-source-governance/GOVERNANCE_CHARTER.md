@@ -34,9 +34,8 @@
 
 2.  **社区生态：服务型倒三角结构**
     ```mermaid
-    graph TD
+    graph BT
         subgraph 社区生态 (赋能流向)
-            direction BT
             C((<b>创造者 Creators</b><br>项目的基石，拥有最高自主权))
             M("<b>领域负责人 Maintainers</b><br>服务与指导")
             P("<b>项目负责人 Project Lead</b><br>移除障碍，维护基石")
