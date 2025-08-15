@@ -37,8 +37,8 @@
     graph TD
         subgraph "社区生态 (服务型倒三角)"
             direction BT
-            C((<b>创造者 Creators</b><br>项目的基石，拥有最高自主权)) -- "被服务" --> M("<b>领域负责人 Maintainers</b><br>服务与指导")
-            M -- "被服务" --> P("<b>项目负责人 Project Lead</b><br>移除障碍，维护基石")
+            C("<b>项目负责人 Project Lead</b><br>移除障碍，维护基石") -- "服务" --> M("<b>领域负责人 Maintainers</b><br>服务与指导")
+            M -- "服务" --> P((<b>创造者 Creators</b><br>项目的基石，拥有最高自主权))
         end
     ```
     *   **创造者（Creators）**：是本项目的基石。所有参与代码、设计、文档、测试、社区沟通等实质性工作的成员，均为创造者。创造者拥有最高程度的自主权。
